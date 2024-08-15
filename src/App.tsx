@@ -121,10 +121,14 @@ export const App = () => {
             labelView="outer"
             placeholder="5 000"
             size={48}
-            value={typeof limit === 'number' ? `${limit.toLocaleString('ru')}` : undefined}
-            type="money"
-            onChange={(_, { value }) => setLimit(typeof value === 'string' ? Number(value.replace(/\s+/g, '')) : undefined)}
+            value={String(limit)}
+            type="number"
+            onChange={(_, { value }) => setLimit(Number(value) > 1_000_000 ? 1_000_000 : Number(value))}
             rightAddons="₽"
+            pattern="[0-9]*"
+            inputMode="numeric"
+            min={1}
+            max={1_000_000}
           />
         </Collapse>
       </div>
