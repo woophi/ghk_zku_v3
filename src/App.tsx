@@ -21,7 +21,7 @@ export const App = () => {
   const [err, setError] = useState('');
   const [thxShow, setThx] = useState(LS.getItem(LSKeys.ShowThx, false));
   const [accountNumber, setAccountNumber] = useState('');
-  const [limit, setLimit] = useState(5_000);
+  const [limit, setLimit] = useState<number | undefined>(undefined);
   const [email, setEmail] = useState('');
 
   const submit = useCallback(() => {
@@ -119,11 +119,12 @@ export const App = () => {
             block
             label="Лимит на сумму платежа"
             labelView="outer"
-            placeholder="5 000 ₽"
+            placeholder="5 000"
             size={48}
-            value={`${limit.toLocaleString('ru')} ₽`}
+            value={typeof limit === 'number' ? `${limit.toLocaleString('ru')}` : undefined}
             type="money"
-            onChange={(_, { value }) => setLimit(Number(value.replace(/\s+/g, '').replace('₽', '')))}
+            onChange={(_, { value }) => setLimit(typeof value === 'string' ? Number(value.replace(/\s+/g, '')) : undefined)}
+            rightAddons="₽"
           />
         </Collapse>
       </div>

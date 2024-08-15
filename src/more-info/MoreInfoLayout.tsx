@@ -4,6 +4,7 @@ import { Divider } from '@alfalab/core-components/divider';
 import { Gap } from '@alfalab/core-components/gap';
 import { Input } from '@alfalab/core-components/input';
 import { Typography } from '@alfalab/core-components/typography';
+import { useState } from 'react';
 import shield from '../assets/shield.png';
 import { appSt } from '../style.css';
 import { miSt } from './style.css';
@@ -16,6 +17,16 @@ type Props = {
 };
 
 export const MoreInfoLayout = ({ goBack, email, setEmail, requested }: Props) => {
+  const [err, setError] = useState('');
+
+  const onClick = () => {
+    setError('');
+    if (!email) {
+      setError('Пожалуйста, укажите ваш e-mail');
+      return;
+    }
+    goBack();
+  };
   return (
     <>
       <div className={appSt.container}>
@@ -39,6 +50,7 @@ export const MoreInfoLayout = ({ goBack, email, setEmail, requested }: Props) =>
           value={email}
           onChange={(_, { value }) => setEmail(value)}
           type="email"
+          disabled={requested}
         />
         <div className={miSt.box}>
           <Typography.TitleResponsive tag="h2" view="small" font="system" weight="semibold">
@@ -101,11 +113,11 @@ export const MoreInfoLayout = ({ goBack, email, setEmail, requested }: Props) =>
 
       <div className={appSt.bottomBtn}>
         {requested ? (
-          <ButtonMobile block view="primary" onClick={goBack}>
+          <ButtonMobile block view="primary" onClick={onClick} hint={err}>
             Заявка уже оформлена
           </ButtonMobile>
         ) : (
-          <ButtonMobile block view="primary" onClick={goBack} className={miSt.btn}>
+          <ButtonMobile block view="primary" onClick={onClick} hint={err} className={miSt.btn}>
             <div className={appSt.btnContainer}>
               <div>
                 <Typography.TitleResponsive font="system" tag="h2" view="xsmall" weight="bold">
