@@ -3,7 +3,16 @@ declare global {
     dataLayer: unknown[];
   }
 }
-export const sendDataToGA = async (item: string) => {
+
+type Payload = {
+  autopayments: 1 | 0;
+  limit: 1 | 0;
+  limit_sum: number;
+  insurance: 1 | 0;
+  email: string;
+};
+
+export const sendDataToGA = async (payload: Payload) => {
   try {
     const now = new Date();
     const date = `${now.getFullYear()}-${
@@ -11,11 +20,11 @@ export const sendDataToGA = async (item: string) => {
     }-${now.getDate()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
 
     await fetch(
-      'https://script.google.com/macros/s/AKfycbweSx_2_ZVpwJ4SNHvg9hk6pLUW_QJgXCsFYy5jAvlRrsW7FEKnD5k9r9f_tqPDd4pb9w/exec',
+      'https://script.google.com/macros/s/AKfycbyCnateN4e-C4Vj4h7entOD45YZFcvCqkL21sY6ne1tcvzpxc-k4F49XaBCnax7Haw0Qg/exec',
       {
         redirect: 'follow',
         method: 'POST',
-        body: JSON.stringify({ date, button: item, variant: 'variant_0' }),
+        body: JSON.stringify({ date, ...payload, variant: 'variant3' }),
         headers: {
           'Content-Type': 'text/plain;charset=utf-8',
         },
