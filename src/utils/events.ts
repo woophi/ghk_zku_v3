@@ -9,7 +9,7 @@ type Payload = {
   limit: 1 | 0;
   limit_sum: number;
   insurance: 1 | 0;
-  email: string;
+  email: 1 | 0;
 };
 
 export const sendDataToGA = async (payload: Payload) => {
